@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 import json
+from datetime import datetime
 from django.views.generic import  View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -11,6 +12,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password, make_password
+from pydub import AudioSegment
+from django.conf import settings
+
+from shazam.task import detectar_sonido
+
+
 
 class GetDetectarSonido(View):
 	"""docstring for GetDetectarSonido"""
@@ -27,17 +34,23 @@ class GetDetectarSonido(View):
 		"""
 		try:
 
-			print(request.POST)
+			print(request.FILES)
 
 			token = request.POST['token']
-			audio = request.FILE['audio']
+			audio = request.FILES['audio']
 
 			token   = Token.objects.get(key=token)
 			usuario = token.user
 
-			print(usuario)
+
+			song = AudioSegment.from_file(audio, format="mp3")
+			nombre_archivo=str(token)+"_"+str(datetime.now())
+			song.export(settings.BASE_DIR+"/archivos_reconocer/"+nombre_archivo+".mp3", format="mp3")
+
+			###mandamos a celery para que busque la cancion
+			resultado = detectar_sonido.delay(nombre_archivo)
 			
-			data = ([{"detail":"Información disponible"}])
+			data = ([{"detail":"Información para procesar almacenada correctamente."}])
 			data = json.dumps(data)
 			response = HttpResponse(data, content_type="application/json", status=200)
 			return response
@@ -55,7 +68,6 @@ class GetDetectarSonido(View):
 			data = json.dumps(data)
 			response = HttpResponse(data, content_type="application/json", status=400)
 			return response
-
 
 
 

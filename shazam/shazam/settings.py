@@ -14,7 +14,6 @@ import os
  
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(BASE_DIR)
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DJANGO_DIR = os.path.dirname(PROJECT_DIR)
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -43,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'djcelery'
 ]
 
 MIDDLEWARE = [
