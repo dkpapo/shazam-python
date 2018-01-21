@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 *.pyc
 wav
 mp3
@@ -6,7 +6,6 @@ mp3
 *.mp3
 .DS_Store
 *.cnf
-=======
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -108,4 +107,3 @@ ENV/
 
 # mypy
 .mypy_cache/
->>>>>>> eb4a4a939783f12528a5b8b0484091033d7b3970
