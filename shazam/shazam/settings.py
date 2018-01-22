@@ -29,7 +29,8 @@ SECRET_KEY = '1e381l1sl!r5$wozp39j-^0+isdfdtgxiw%0ayt48m0@6)!3uz'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+#FCM_APIKEY = "AIzaSyATnIXmI2RKptA-al9z7sYXNnf5Tu_UGdI"
+FCM_APIKEY ="AAAA4I2_ijw:APA91bHMxrki-ou3L4n-rTb_P3MZwpNMmHawfoiNyfiQxSFQnCJcH1KkIUdYkHQJYDfCaVT2N7nHfhqOYaVqWRf7UZtcVuHAmUAJGTTsFd_OyPFF1AvDTMLEc75QYy4KpIWVJRgBKNIt"
 
 # Application definition
 
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'rest_framework.authtoken',
-    'djcelery'
+    'djcelery',
 ]
 
 MIDDLEWARE = [

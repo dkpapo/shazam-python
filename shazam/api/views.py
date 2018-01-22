@@ -5,8 +5,9 @@ from django.views.generic import  View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.utils.datastructures import MultiValueDictKeyError
-from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from django.http import (HttpResponse, HttpResponseRedirect,JsonResponse)
+from rest_framework.authentication import (SessionAuthentication, BasicAuthentication, 
+	TokenAuthentication)
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
@@ -14,8 +15,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password, make_password
 from pydub import AudioSegment
 from django.conf import settings
-
 from shazam.task import detectar_sonido
+from models import (TokensFCM)
+
 
 
 
@@ -91,9 +93,15 @@ def LoginToken(request):
 			
 			if user is not False and check == True:
 				if user.is_active == True:
-			
-					token    = Token.objects.get_or_create(user=user)
+					###guardar el token para el usuario en la tabla de fcm
 
+					token    = Token.objects.get_or_create(user=user)
+					fcm_user=TokensFCM(
+						token=registrationId,
+						usuario=user
+					)
+
+					fcm_user.save()
 					data     = ([{"detail":"Has iniciado sesión correctamente."}])
 					data     = json.dumps(data)
 					response = HttpResponse(data, content_type="application/json", status=200)
@@ -137,13 +145,19 @@ def LogoutToken(request):
 			token   = request.POST['token']
 			token   = Token.objects.get(key=token)
 			token.delete()
-			
+			fcm_user=TokensFCM.objects.get(usuario=token.user)
+			fcm_user.delete()
 
 			data     = ([{"detail":"Sesión finalizada correctamente."}])
 			data     = json.dumps(data)
 			response = HttpResponse(data, content_type="application/json", status=200)
 			return response
 		except Token.DoesNotExist:
+			data     = ([{"detail":"El usuario no existe, por favor verifique la información."}])
+			data     = json.dumps(data)
+			response = HttpResponse(data, content_type="application/json", status=400)
+			return response
+		except TokensFCM.DoesNotExist:
 			data     = ([{"detail":"El usuario no existe, por favor verifique la información."}])
 			data     = json.dumps(data)
 			response = HttpResponse(data, content_type="application/json", status=400)
