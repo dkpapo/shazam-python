@@ -2,7 +2,7 @@
     "database": {
         "host": "127.0.0.1",
         "user": "root",
-        "passwd": "dkpapo123", 
+        "passwd": "123456", 
         "db": "dejavu"
     }
 }
