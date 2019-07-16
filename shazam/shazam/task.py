@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from api.models import (TokensFCM)
 from rest_framework.authtoken.models import Token
 
-@app.task
+@app.task()
 def detectar_sonido(nombre_archivo):
     
 	# load config from a JSON file (or anything outputting a python dictionary)

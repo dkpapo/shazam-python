@@ -96,13 +96,15 @@ def LoginToken(request):
 					###guardar el token para el usuario en la tabla de fcm
 
 					token    = Token.objects.get_or_create(user=user)
-					fcm_user=TokensFCM(
+					print(token[0])
+					fcm_user=TokensFCM.objects.update_or_create(
 						token=registrationId,
 						usuario=user
 					)
 
-					fcm_user.save()
-					data     = ([{"detail":"Has iniciado sesión correctamente."}])
+					#fcm_user.save()
+
+					data     = ([{"detail":"Has iniciado sesión correctamente.", "token":str(token[0])}])
 					data     = json.dumps(data)
 					response = HttpResponse(data, content_type="application/json", status=200)
 					response['Authorization'] =  str(token)
