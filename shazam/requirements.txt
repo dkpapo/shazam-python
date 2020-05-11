@@ -9,7 +9,7 @@ cycler==0.10.0
 Django==1.11.28
 django-celery==3.2.2
 django-markdown==0.8.4
-djangorestframework==3.4.6
+djangorestframework==3.9.1
 idna==2.8
 kiwisolver==1.1.0
 kombu==4.6.3
