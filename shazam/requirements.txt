@@ -16,7 +16,7 @@ kombu==4.6.3
 Markdown==3.1.1
 matplotlib==2.2.4
 MySQL-python==1.2.5
-numpy==1.16.4
+numpy==1.22.0
 PyAudio==0.2.11
 pydub==0.23.1
 pyfcm==1.4.7
